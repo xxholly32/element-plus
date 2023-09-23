@@ -46,7 +46,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref, watch } from 'vue'
 import { useEventListener, useResizeObserver, useTimeoutFn } from '@vueuse/core'
-import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
+import { TypeComponents } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import ElBadge from '@element-plus/components/badge'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
@@ -65,7 +65,7 @@ defineOptions({
 const props = defineProps(messageProps)
 defineEmits(messageEmits)
 
-const { ns, zIndex } = useGlobalComponentSettings('message')
+const { ns, zIndex, iconsMap } = useGlobalComponentSettings('message')
 const { currentZIndex, nextZIndex } = zIndex
 
 const messageRef = ref<HTMLDivElement>()
@@ -79,11 +79,9 @@ const badgeType = computed<BadgeProps['type']>(() =>
 )
 const typeClass = computed(() => {
   const type = props.type
-  return { [ns.bm('icon', type)]: type && TypeComponentsMap[type] }
+  return { [ns.bm('icon', type)]: type && iconsMap[type] }
 })
-const iconComponent = computed(
-  () => props.icon || TypeComponentsMap[props.type] || ''
-)
+const iconComponent = computed(() => props.icon || iconsMap[props.type] || '')
 
 const lastOffset = computed(() => getLastOffset(props.id))
 const offset = computed(

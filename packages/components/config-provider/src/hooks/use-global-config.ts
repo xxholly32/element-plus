@@ -1,5 +1,5 @@
 import { computed, getCurrentInstance, inject, provide, ref, unref } from 'vue'
-import { debugWarn, keysOf } from '@element-plus/utils'
+import { TypeComponentsMap, debugWarn, keysOf } from '@element-plus/utils'
 import {
   SIZE_INJECTION_KEY,
   defaultInitialZIndex,
@@ -57,6 +57,7 @@ export function useGlobalComponentSettings(
   )
 
   const locale = useLocale(computed(() => config.value?.locale))
+  const iconsMap = computed(() => config.value?.zIndex || TypeComponentsMap)
   const zIndex = useZIndex(
     computed(() => config.value?.zIndex || defaultInitialZIndex)
   )
@@ -68,6 +69,7 @@ export function useGlobalComponentSettings(
     locale,
     zIndex,
     size,
+    iconsMap,
   }
 }
 
